@@ -1,74 +1,33 @@
-# Sequential Thinking MCP Server
+# 🧠 Sequential Thinking MCP Server
 
-<div align="center">
+[![MCP](https://img.shields.io/badge/MCP-1.0-blue.svg)](https://modelcontextprotocol.io)
+[![Vercel](https://img.shields.io/badge/Vercel-Ready-black.svg)](https://vercel.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)
-![MCP](https://img.shields.io/badge/MCP-Compatible-purple.svg)
+A **Remote MCP Server** implementation for dynamic and reflective problem-solving through structured thinking. Built with the official `@vercel/mcp-adapter` for seamless Vercel deployment with **Streamable HTTP** transport.
 
-**A Remote MCP Server for Dynamic and Reflective Problem-Solving**
+## ✨ Features
 
-[Features](#features) • [Installation](#installation) • [Usage](#usage) • [API Reference](#api-reference) • [Deployment](#deployment)
+- 🔄 **Streamable HTTP Transport** - Modern, efficient transport (recommended by MCP spec March 2025)
+- 🌐 **SSE Support** - Backward compatibility with Server-Sent Events
+- 📦 **Vercel Native** - One-click deployment with `@vercel/mcp-adapter`
+- 🔀 **Branching Logic** - Explore alternative thinking paths
+- 📝 **Revision Tracking** - Refine and improve previous thoughts
+- 💾 **Session Management** - Persistent thinking across interactions
+- 🏷️ **Auto-Classification** - Automatic thought type detection
 
-</div>
+## 🚀 Quick Deploy
 
----
+### Deploy to Vercel (Recommended)
 
-## Overview
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/sheikhcoders/sequential-thinking-mcp)
 
-Sequential Thinking MCP Server is an implementation of the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) that provides a powerful tool for structured, step-by-step problem-solving. It enables AI models to break down complex problems into manageable steps, revise their thinking, and explore alternative solution paths through branching.
+After deployment, your MCP server will be available at:
+- **Streamable HTTP**: `https://your-app.vercel.app/mcp`
+- **SSE**: `https://your-app.vercel.app/sse`
 
-### Why Sequential Thinking?
-
-Complex problem-solving often requires:
-- **Iterative refinement** - Initial thoughts may need revision as understanding deepens
-- **Multiple approaches** - Different solution paths should be explored
-- **Structured reasoning** - Step-by-step analysis yields better results
-- **Reflection** - Meta-cognition improves problem-solving quality
-
-This server provides the infrastructure to support all of these capabilities.
-
----
-
-## Features
-
-| Feature | Description |
-|---------|-------------|
-| **Step-by-Step Thinking** | Record thoughts sequentially with automatic numbering and tracking |
-| **Thought Categorization** | Classify thoughts into 9 types for better organization |
-| **Revision Support** | Revise earlier thoughts when new insights emerge |
-| **Branching** | Explore alternative solution paths from any step |
-| **Confidence Tracking** | Rate confidence levels (0-1) for each thought |
-| **Session Management** | Create, continue, and complete thinking sessions |
-| **Dual Transport** | Run as stdio server or HTTP/SSE for remote access |
-| **Stateless API** | Simple REST endpoints for easy integration |
-
-### Thought Types
-
-| Type | Use Case |
-|------|----------|
-| `observation` | Initial observations about the problem |
-| `analysis` | Breaking down the problem into components |
-| `hypothesis` | Proposed solutions or theories |
-| `verification` | Testing or validating ideas |
-| `refinement` | Improving upon previous thoughts |
-| `conclusion` | Final conclusions or decisions |
-| `question` | Questions that arise during thinking |
-| `insight` | Key realizations or breakthroughs |
-| `reflection` | Meta-thinking about the process |
-
----
-
-## Installation
-
-### Prerequisites
-
-- Node.js >= 18.0.0
-- npm or yarn
-
-### Quick Start
+### Local Development
 
 ```bash
 # Clone the repository
@@ -78,94 +37,242 @@ cd sequential-thinking-mcp
 # Install dependencies
 npm install
 
-# Build the project
+# Build
 npm run build
 
-# Start the server
+# Run stdio mode (for MCP clients)
 npm start
+
+# Run HTTP mode (for development)
+npm run start:http
 ```
 
----
+## 📡 Transport Modes
 
-## Usage
+### Streamable HTTP (Recommended)
+The latest MCP transport specification. Eliminates persistent connections for better scalability.
 
-### Mode 1: Stdio Server (MCP Clients)
+```
+POST https://your-app.vercel.app/mcp
+```
 
-For integration with MCP clients like Claude Desktop:
+### Server-Sent Events (SSE)
+Legacy transport for backward compatibility.
+
+```
+GET https://your-app.vercel.app/sse
+```
+
+### Standard IO (stdio)
+For local MCP clients like Claude Desktop.
 
 ```bash
-node dist/index.js stdio
+node dist/index.js
 ```
 
-#### Claude Desktop Configuration
+## 🔧 Configuration
 
-Add to your `claude_desktop_config.json`:
+### Claude Desktop
+
+Add to `~/.claude/claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
     "sequential-thinking": {
-      "command": "node",
-      "args": ["/path/to/sequential-thinking-mcp/dist/index.js", "stdio"]
+      "url": "https://your-app.vercel.app/mcp"
     }
   }
 }
 ```
 
-### Mode 2: HTTP/SSE Server (Remote Access)
+### Cursor
 
-For remote access via HTTP with Server-Sent Events:
+Add to `.cursor/mcp.json`:
 
-```bash
-# Default port (3000)
-node dist/index.js http
-
-# Custom port
-node dist/index.js http --port 8080
+```json
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "url": "https://your-app.vercel.app/mcp"
+    }
+  }
+}
 ```
 
----
+### Cline (Streamable HTTP)
 
-## API Reference
+Add to `cline_mcp_settings.json`:
 
-### HTTP Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/health` | GET | Health check and server status |
-| `/info` | GET | Server information and capabilities |
-| `/sse` | GET | Establish SSE connection |
-| `/message/:clientId` | POST | Send JSON-RPC request (with SSE session) |
-| `/message` | POST | Send JSON-RPC request (stateless) |
-| `/tools` | GET | List available tools |
-| `/tools/:toolName` | POST | Direct tool invocation |
-
----
-
-## Deployment
-
-### Vercel
-
-This project includes a `vercel.json` configuration for easy deployment:
-
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel
+```json
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://your-app.vercel.app/mcp"],
+      "transportType": "Streamable HTTP"
+    }
+  }
+}
 ```
 
+### For stdio (Local)
+
+```json
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["sequential-thinking-mcp"]
+    }
+  }
+}
+```
+
+## 🛠️ Available Tools
+
+### `sequential_thinking`
+
+The main tool for step-by-step problem solving with dynamic thought management.
+
+**Parameters:**
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `thought` | string | ✅ | Your current thinking step |
+| `nextThoughtNeeded` | boolean | ✅ | Whether another thought is needed |
+| `thoughtNumber` | number | ✅ | Current thought number (1-indexed) |
+| `totalThoughts` | number | ✅ | Estimated total thoughts needed |
+| `isRevision` | boolean | ❌ | Whether this revises previous thinking |
+| `revisesThought` | number | ❌ | Which thought number is being revised |
+| `branchFromThought` | number | ❌ | Create branch from this thought |
+| `branchId` | string | ❌ | Branch identifier |
+| `sessionId` | string | ❌ | Session ID for persistence |
+
+### `get_thinking_summary`
+
+Get a comprehensive summary of a thinking session.
+
+### `list_thinking_sessions`
+
+List all available thinking sessions.
+
+### `switch_thinking_branch`
+
+Switch between different thinking branches.
+
+### `complete_thinking_session`
+
+Mark a session as completed with optional final conclusion.
+
+## 📊 Thought Types
+
+Thoughts are automatically classified:
+
+| Type | Detected When |
+|------|---------------|
+| `question` | Contains `?`, starts with what/how/why |
+| `observation` | Contains "I notice", "I see", "observe" |
+| `hypothesis` | Contains "perhaps", "maybe", "hypothesis" |
+| `verification` | Contains "verify", "test", "check" |
+| `insight` | Contains "insight", "realize", "aha" |
+| `conclusion` | Contains "therefore", "in conclusion" |
+| `refinement` | Contains "refine", "improve", "better" |
+| `reflection` | Contains "reflect", "thinking about" |
+| `analysis` | Default for analytical statements |
+
+## 🏗️ Project Structure
+
+```
+sequential-thinking-mcp/
+├── api/
+│   └── [transport]/
+│       └── route.ts       # Vercel serverless handler
+├── src/
+│   ├── index.ts           # CLI entry point (stdio mode)
+│   ├── server.ts          # MCP stdio server
+│   ├── http-transport.ts  # Express HTTP server
+│   ├── thinking-session.ts # Session management
+│   └── types.ts           # TypeScript definitions
+├── package.json
+├── tsconfig.json
+├── vercel.json            # Vercel configuration
+└── README.md
+```
+
+## 🔒 Production Considerations
+
+### Session Persistence
+
+For production with persistent sessions, integrate **Vercel KV** or **Upstash Redis**:
+
+```typescript
+import { kv } from '@vercel/kv';
+
+// Store session
+await kv.set(`session:${sessionId}`, session);
+
+// Retrieve session
+const session = await kv.get(`session:${sessionId}`);
+```
+
+### Authentication
+
+Add OAuth or API key authentication for production:
+
+```typescript
+// In your handler
+const authHeader = request.headers.get('Authorization');
+if (!validateToken(authHeader)) {
+  return new Response('Unauthorized', { status: 401 });
+}
+```
+
+## 📄 API Reference
+
+### Health Check
+
+```bash
+curl https://your-app.vercel.app/mcp \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc": "2.0", "method": "initialize", "id": 1}'
+```
+
+### Call Tool
+
+```bash
+curl https://your-app.vercel.app/mcp \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "method": "tools/call",
+    "params": {
+      "name": "sequential_thinking",
+      "arguments": {
+        "thought": "Let me analyze this problem step by step",
+        "nextThoughtNeeded": true,
+        "thoughtNumber": 1,
+        "totalThoughts": 5
+      }
+    },
+    "id": 1
+  }'
+```
+
+## 📚 Resources
+
+- [MCP Specification](https://modelcontextprotocol.io/specification)
+- [Vercel MCP Adapter](https://www.npmjs.com/package/@vercel/mcp-adapter)
+- [Deploy MCP Servers to Vercel](https://vercel.com/docs/mcp/deploy-mcp-servers-to-vercel)
+- [Building Efficient MCP Servers](https://vercel.com/blog/building-efficient-mcp-servers)
+
+## 📝 License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+## 🤝 Contributing
+
+Contributions welcome! Please read our contributing guidelines and submit PRs.
+
 ---
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-<div align="center">
-
-**Built with ❤️ by Matrix Agent**
-
-</div>
+**Built with ❤️ using the Model Context Protocol**

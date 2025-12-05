@@ -2,44 +2,23 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "name": "sequential-thinking-mcp",
-  "builds": [
-    {
-      "src": "dist/index.js",
-      "use": "@vercel/node"
+  "buildCommand": "npm run vercel-build",
+  "installCommand": "npm install",
+  "framework": null,
+  "functions": {
+    "api/[transport]/route.ts": {
+      "maxDuration": 60,
+      "memory": 1024
     }
-  ],
+  },
   "rewrites": [
     {
-      "source": "/health",
-      "destination": "/dist/index.js"
-    },
-    {
-      "source": "/info",
-      "destination": "/dist/index.js"
+      "source": "/mcp",
+      "destination": "/api/mcp/route"
     },
     {
       "source": "/sse",
-      "destination": "/dist/index.js"
-    },
-    {
-      "source": "/message/:path*",
-      "destination": "/dist/index.js"
-    },
-    {
-      "source": "/message",
-      "destination": "/dist/index.js"
-    },
-    {
-      "source": "/tools/:path*",
-      "destination": "/dist/index.js"
-    },
-    {
-      "source": "/tools",
-      "destination": "/dist/index.js"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/dist/index.js"
+      "destination": "/api/sse/route"
     }
   ],
   "headers": [
@@ -52,11 +31,11 @@
         },
         {
           "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, OPTIONS"
+          "value": "GET, POST, DELETE, OPTIONS"
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
+          "value": "Content-Type, Authorization, X-MCP-Session-Id"
         }
       ]
     }

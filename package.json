@@ -1,25 +1,31 @@
 {
   "name": "sequential-thinking-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Remote MCP Server for Sequential Thinking - A structured problem-solving tool",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
+    "start:http": "node dist/index.js --http",
     "dev": "tsx watch src/index.ts",
-    "clean": "rm -rf dist"
+    "dev:http": "tsx watch src/index.ts --http",
+    "clean": "rm -rf dist",
+    "vercel-build": "tsc"
   },
   "keywords": [
     "mcp",
     "sequential-thinking",
     "problem-solving",
-    "ai-tools"
+    "ai-tools",
+    "vercel",
+    "streamable-http"
   ],
   "author": "Matrix Agent",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
+    "@vercel/mcp-adapter": "^0.3.0",
     "express": "^4.18.2",
     "uuid": "^9.0.0",
     "zod": "^3.22.4"
