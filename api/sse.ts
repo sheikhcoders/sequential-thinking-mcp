@@ -1,2 +1,4 @@
-// Re-export from mcp.ts for SSE transport
-export { GET, POST, DELETE } from './mcp';
+// Deprecated - use app/api/mcp/route.ts instead
+export default function handler(req: any, res: any) {
+  res.redirect(307, '/api/mcp');
+}
