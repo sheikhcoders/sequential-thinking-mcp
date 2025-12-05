@@ -1,0 +1,67 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "name": "sequential-thinking-mcp",
+  "builds": [
+    {
+      "src": "dist/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/health",
+      "dest": "/dist/index.js"
+    },
+    {
+      "src": "/info",
+      "dest": "/dist/index.js"
+    },
+    {
+      "src": "/sse",
+      "dest": "/dist/index.js"
+    },
+    {
+      "src": "/message/(.*)",
+      "dest": "/dist/index.js"
+    },
+    {
+      "src": "/message",
+      "dest": "/dist/index.js"
+    },
+    {
+      "src": "/tools/(.*)",
+      "dest": "/dist/index.js"
+    },
+    {
+      "src": "/tools",
+      "dest": "/dist/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/index.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ]
+}
