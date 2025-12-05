@@ -8,43 +8,40 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/health",
-      "dest": "/dist/index.js"
+      "source": "/health",
+      "destination": "/dist/index.js"
     },
     {
-      "src": "/info",
-      "dest": "/dist/index.js"
+      "source": "/info",
+      "destination": "/dist/index.js"
     },
     {
-      "src": "/sse",
-      "dest": "/dist/index.js"
+      "source": "/sse",
+      "destination": "/dist/index.js"
     },
     {
-      "src": "/message/(.*)",
-      "dest": "/dist/index.js"
+      "source": "/message/:path*",
+      "destination": "/dist/index.js"
     },
     {
-      "src": "/message",
-      "dest": "/dist/index.js"
+      "source": "/message",
+      "destination": "/dist/index.js"
     },
     {
-      "src": "/tools/(.*)",
-      "dest": "/dist/index.js"
+      "source": "/tools/:path*",
+      "destination": "/dist/index.js"
     },
     {
-      "src": "/tools",
-      "dest": "/dist/index.js"
+      "source": "/tools",
+      "destination": "/dist/index.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/dist/index.js"
+      "source": "/(.*)",
+      "destination": "/dist/index.js"
     }
   ],
-  "env": {
-    "NODE_ENV": "production"
-  },
   "headers": [
     {
       "source": "/(.*)",
@@ -63,5 +60,8 @@
         }
       ]
     }
-  ]
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }
