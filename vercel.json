@@ -1,21 +1,4 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "version": 2,
-  "name": "sequential-thinking-mcp",
-  "framework": null,
-  "installCommand": "npm install",
-  "builds": [
-    {
-      "src": "api/*.ts",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    { "src": "/mcp", "dest": "/api/mcp.ts" },
-    { "src": "/sse", "dest": "/api/sse.ts" },
-    { "src": "/health", "dest": "/api/health.ts" },
-    { "src": "/api/mcp", "dest": "/api/mcp.ts" },
-    { "src": "/api/sse", "dest": "/api/sse.ts" },
-    { "src": "/api/health", "dest": "/api/health.ts" }
-  ]
+  "framework": "nextjs"
 }
