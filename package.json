@@ -19,7 +19,8 @@
   "author": "Matrix Agent",
   "license": "MIT",
   "dependencies": {
-    "mcp-handler": "^0.0.6",
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "mcp-handler": "^1.0.4",
     "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
